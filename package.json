@@ -1,6 +1,6 @@
 {
   "name": "@isayme/qinglong",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "index.js",
   "types": "./lib/cjs/types/index.d.ts",
@@ -15,11 +15,11 @@
     ".": {
       "import": {
         "types": "./lib/esm/types/index.d.ts",
-        "default": "./lib/esm/index.js"
+        "default": "./lib/esm/client.js"
       },
       "require": {
         "types": "./lib/cjs/types/index.d.ts",
-        "default": "./lib/cjs/index.js"
+        "default": "./lib/cjs/client.js"
       }
     }
   },
