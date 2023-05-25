@@ -1,16 +1,14 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
+    "outDir": "lib/esm",
     "lib": ["ESNext", "DOM"],
     "module": "ESNext",
     "target": "ESNext",
-    "moduleResolution": "node",
-    "esModuleInterop": true
+    "declarationDir": "lib/esm/types"
   },
-  "include": ["src"],
   "ts-node": {
-    "esm": true,
+    "esm": false,
     "experimentalSpecifierResolution": "node"
   }
 }

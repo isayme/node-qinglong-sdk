@@ -3,10 +3,30 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+  "types": "./lib/cjs/types/index.d.ts",
+  "type": "commonjs",
   "scripts": {
-    "build": "tsc"
+    "clean": "rm -rf ./lib",
+    "build": "pnpm run clean && pnpm run build:esm && pnpm run build:cjs",
+    "build:esm": "tsc -p ./tsconfig.esm.json",
+    "build:cjs": "tsc -p ./tsconfig.cjs.json"
   },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/esm/types/index.d.ts",
+        "default": "./lib/esm/index.js"
+      },
+      "require": {
+        "types": "./lib/cjs/types/index.d.ts",
+        "default": "./lib/cjs/index.js"
+      }
+    }
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
   "keywords": [],
   "author": "iSayme <isaymeorg@gmail.com>",
   "license": "MIT",

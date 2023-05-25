@@ -18,26 +18,27 @@ interface IGetEnvResp {
 }
 
 export class Client {
-  #baseUrl: string
-  #clientId: string
-  #clientSecret: string
-  #tokenInfo: ITokenInfo
-  #axiosInstance: AxiosInstance
+  baseUrl: string
+  clientId: string
+  clientSecret: string
+  tokenInfo: ITokenInfo | null
+  axiosInstance: AxiosInstance
 
   constructor(baseUrl: string, clientId: string, clientSecret: string) {
-    this.#baseUrl = baseUrl
-    this.#clientId = clientId
-    this.#clientSecret = clientSecret
-    this.#axiosInstance = axios.create({
+    this.baseUrl = baseUrl
+    this.clientId = clientId
+    this.clientSecret = clientSecret
+    this.axiosInstance = axios.create({
       method: 'GET',
-      baseURL: this.#baseUrl,
+      baseURL: this.baseUrl,
       responseType: 'json',
       timeout: 3000,
     })
+    this.tokenInfo = null
   }
 
   async request(config: AxiosRequestConfig) {
-    const resp = await this.#axiosInstance.request(config)
+    const resp = await this.axiosInstance.request(config)
     if (resp.status < 200 || resp.status >= 300) {
       const respText = resp.data
       throw new Error(`requestFail: url: ${url}, resp: ${respText}`)
@@ -59,14 +60,14 @@ export class Client {
       method: 'GET',
       url: '/open/auth/token',
       params: {
-        client_id: this.#clientId,
-        client_secret: this.#clientSecret,
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
       },
     })
   }
 
   async getToken(): Promise<string> {
-    let tokenInfo = this.#tokenInfo
+    let tokenInfo = this.tokenInfo
     if (tokenInfo && tokenInfo.expiration) {
       return `${tokenInfo.token_type} ${tokenInfo.token}`
     }
@@ -74,13 +75,13 @@ export class Client {
     const lock = new RWLock()
     try {
       await lock.writeLock()
-      tokenInfo = this.#tokenInfo
+      tokenInfo = this.tokenInfo
       if (tokenInfo && tokenInfo.expiration) {
         return `${tokenInfo.token_type} ${tokenInfo.token}`
       }
 
-      this.#tokenInfo = await this.doGetToken()
-      tokenInfo = this.#tokenInfo
+      this.tokenInfo = await this.doGetToken()
+      tokenInfo = this.tokenInfo
       return `${tokenInfo.token_type} ${tokenInfo.token}`
     } finally {
       lock.unlock()
