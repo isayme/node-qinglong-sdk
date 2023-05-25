@@ -1,0 +1,23 @@
+{
+  "name": "@isayme/qinglong",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "iSayme <isaymeorg@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "async-rwlock": "^1.1.1",
+    "await-lock": "^2.2.2",
+    "axios": "^1.4.0"
+  }
+}
