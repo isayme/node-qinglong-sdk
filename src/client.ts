@@ -1,6 +1,5 @@
 import { RWLock } from 'async-rwlock'
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
-import { url } from 'inspector'
 
 interface ITokenInfo {
   token: string
@@ -41,14 +40,14 @@ export class Client {
     const resp = await this.axiosInstance.request(config)
     if (resp.status < 200 || resp.status >= 300) {
       const respText = resp.data
-      throw new Error(`requestFail: url: ${url}, resp: ${respText}`)
+      throw new Error(`requestFail: url: ${config.url}, resp: ${respText}`)
     }
 
     const { code, data } = resp.data
     if (code !== 200) {
       const dataText = JSON.stringify(data)
       throw new Error(
-        `requestFail: url: ${url}, code: ${code}, data: ${dataText}`,
+        `requestFail: url: ${config.url}, code: ${code}, data: ${dataText}`,
       )
     }
 

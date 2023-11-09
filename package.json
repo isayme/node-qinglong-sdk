@@ -2,33 +2,30 @@
   "name": "@isayme/qinglong",
   "version": "0.1.1",
   "description": "",
-  "main": "index.js",
-  "types": "./lib/cjs/types/index.d.ts",
+  "main": "dist/cjs/client.js",
   "type": "commonjs",
   "scripts": {
-    "clean": "rm -rf ./lib",
+    "clean": "rm -rf ./dist",
     "build": "pnpm run clean && pnpm run build:esm && pnpm run build:cjs",
-    "build:esm": "tsc -p ./tsconfig.esm.json",
-    "build:cjs": "tsc -p ./tsconfig.cjs.json"
+    "build:esm": "tsc -p ./tsconfig.esm.json && cp package.esm.json ./dist/esm/package.json",
+    "build:cjs": "tsc -p ./tsconfig.cjs.json && cp package.cjs.json ./dist/cjs/package.json"
   },
   "exports": {
-    ".": {
-      "import": {
-        "types": "./lib/esm/types/index.d.ts",
-        "default": "./lib/esm/client.js"
-      },
-      "require": {
-        "types": "./lib/cjs/types/index.d.ts",
-        "default": "./lib/cjs/client.js"
-      }
+    "import": {
+      "types": "./dist/esm/client.d.ts",
+      "default": "./dist/esm/client.js"
+    },
+    "require": {
+      "types": "./dist/cjs/client.d.ts",
+      "default": "./dist/cjs/client.js"
     }
   },
   "files": [
-    "lib",
+    "dist",
     "src"
   ],
   "keywords": [],
-  "author": "iSayme <isaymeorg@gmail.com>",
+  "author": "isayme <isaymeorg@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.2.3",
